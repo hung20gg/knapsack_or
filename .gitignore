@@ -1,2 +1,5 @@
-/cmake
-/build
+/cmake/
+/build/
+/src/low-dimensional/
+/src/multi/
+/.vscode/
