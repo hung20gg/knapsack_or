@@ -28,13 +28,6 @@
 //         }
 //     }
 
-//     // for (int i = 0;i<mw;i++){
-//     //     for (int j = 0;j<item;j++){
-//     //         output<<W[i][j]<<" ";
-//     //     }
-//     //     output<<endl;
-//     // }
-
 //     for (int i=0; i<mw;i++){
 //         input>>MW[i];
 //     }
@@ -42,17 +35,13 @@
 //     IloEnv env;
 //     IloModel Model(env);
 
-
-//     //for (int i=0;i<item;i++){
 //     IloIntVarArray X = IloIntVarArray(env, item, 0, 1);
-//     //}
 
 //     IloExpr exp0(env);
 
 //     for(int i=0;i<item;i++){
 //         exp0 += X[i]*V[i];
 //     }
-
 
 //     Model.add(IloMaximize(env,exp0));
 
@@ -66,36 +55,25 @@
 
 //     }
 
-//     // IloExpr exp1(env);
-
-//     // for (int i=0;i<item;i++){
-//     //     exp1 += X[i]*W[i];
-//     // }
-//     // Model.add(exp1 <= mw);
-
 //     IloCplex cplex(Model);
-
+//     double obj;
 //     if (!cplex.solve()) {
 // 		env.error() << "Failed to optimize the Master Problem!!!" << endl;
-// 		throw(-1);
-// 	}
-
-//     int obj = cplex.getObjValue();
-//     // output<<"Solved"<<endl;
-//     // output<<obj<<endl;
-
+// 		obj = 0;
+// 	}else{
+//         obj = cplex.getObjValue();
+//     }
 
   	
 //     if(obj == result){
-//         output<<"Passed"<<endl;
+//         output<<"Passed \t"<<obj<<"/"<<result<<endl;
 //     }
 //     else{
-//         output<<"Failed"<<endl;
+//         output<<"Failed \t"<<obj<<"/"<<result<<endl;
 //     }
 
     
 // }
-
 // int main(int argc, char* argv[]){
 
 //     auto start = chrono::high_resolution_clock::now();
@@ -113,9 +91,6 @@
 //             break;
 //     }
 
-
-
-
 //     string dir = "/home/quanghung20gg/Documents/orlab/tanthu/src/multi/"+instance_name;
 //     string dirout = "/home/quanghung20gg/Documents/orlab/tanthu/src/multi-optimal/"+instance_name;
 //     ifstream input(dir);
@@ -128,10 +103,9 @@
 //         solve(input, output);
 //     }
 
-//     // freopen("/home/quanghung20gg/Documents/orlab/tanthu/src/low-dimensional/f2_l-d_kp_10_269","r",stdin);
-//     // freopen("/home/quanghung20gg/Documents/orlab/tanthu/src/low-dimensional/f_l-d_kp_20_269_out.txt","w",stdout);
 //     auto end = chrono::high_resolution_clock::now();
 // 	auto Elapsed = chrono::duration_cast<chrono::milliseconds>(end - start);
 //     output<<"Running time(ms): "<<Elapsed.count() << endl;
     
 // }
+
