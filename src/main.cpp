@@ -32,143 +32,84 @@
 */
 #include<bits/stdc++.h>
 #include<ilcplex/ilocplex.h>
+
+#include "../header/knapsack.hpp"
+#include "../header/multi_knapsack.hpp"
+#include "../header/multidemand_knapsack.hpp"
+
 #include<chrono>
 
 #define long long ll;
 
 using namespace std;
 
-void solve(ifstream &input, ofstream &output){
-    int item ; //try-catch later
-    int m ;
 
-    input>>item>>m;
-
-    vector<vector<double>>V(6,vector<double>(item));
-    vector<vector<double>>W(m, vector<double>(item));
-    vector<vector<double>>RW(m, vector<double>(item));
-    vector<double>MW(m);
-    vector<double>RMW(m);
-
-    
-
-    for (int i = 0;i<m;i++){
-        for (int j = 0;j<item;j++){
-            input>>W[i][j];
-        }
-    }
-
-    for (int i=0; i<m;i++){
-        input>>MW[i];
-    }
-
-    for (int i = 0;i<m;i++){
-        for (int j = 0;j<item;j++){
-            input>>RW[i][j];
-        }
-    }
-
-    for (int i=0; i<m;i++){
-        input>>RMW[i];
-    }
-
-    for (int i=0; i<6; i++)
-        {for (int j=0;j<item;j++){
-            input>>V[i][j];
-        }}
-    cout<<"v ok"<<endl;
-
-    for (int t = 0; t < 6; t++){
-
-        IloEnv env;
-        IloModel Model(env);
-
-        IloIntVarArray X = IloIntVarArray(env, item, 0, 1);
-
-        IloExpr exp0(env);
-
-        for(int i=0;i<item;i++){
-            exp0 += X[i]*V[t][i];
-        }
-
-        Model.add(IloMaximize(env,exp0));
-
-        for (int i = 0; i<m;i++){
-            IloExpr exp1(env);
-            for (int j=0;j<item;j++){
-                exp1 += X[j] * W[i][j];
-            }
-            Model.add(exp1 <= MW[i]);
-
-        }
-
-        int reverse = 1;
-
-        if (t%3==1){
-            reverse = m/2;
-        }
-        if (t%3==2){
-            reverse = m;
-        }
-
-        for (int i = 0; i<reverse;i++){
-            IloExpr exp1(env);
-            for (int j=0;j<item;j++){
-                exp1 += X[j] * RW[i][j];
-            }
-            Model.add(exp1 <= RMW[i]);
-
-        }
-
-        IloCplex cplex(Model);
-        double obj;
-        if (!cplex.solve()) {
-            env.error() << "Failed to optimize the Master Problem!!!" << endl;
-            obj = 0;
-        }else{
-            obj = cplex.getObjValue();
-        }
-
-        output<<"\t"<<obj<<endl;
-
-    }
-    
-}
 int main(int argc, char* argv[]){
 
-    auto start = chrono::high_resolution_clock::now();
-
-    string instance_folder = "/home/quanghung20gg/Documents/orlab/tanthu/src";
+    string instance_folder = "/home/quanghung20gg/Documents/orlab/tanthu/instances/";
     string instance_name = "";
+    string type = "";
+    int thread = 1;
 
-    int seed = 0;
     while (--argc){
             argv++;
             string s(argv[0]);
             if (s == "-n"){
                 instance_name = string(argv[1]);
             }
-            break;
+            if (s == "-t"){
+                type = string(argv[1]);
+            }
+            if (s == "-c"){
+                thread = stoi(argv[1]);
+            }
     }
 
-    string dir = "/home/quanghung20gg/Documents/orlab/tanthu/src/multi-demand/"+instance_name;
-    string dirout = "/home/quanghung20gg/Documents/orlab/tanthu/src/multi-demand-optimal/"+instance_name;
+    string dir = instance_folder + type + "/" + instance_name;
+    string dirout = instance_folder + type + "-optimal/" + instance_name;
+
+    // Open file
     ifstream input(dir);
     ofstream output(dirout+"_out.txt");
 
     int k;
-    input>>k;
-    cout<<k<<endl;
-    int count=1;
-
-    while(--k){
-        output<<"Problem "<<count<<endl;
-        solve(input, output);
-        count++;
+    if (type == "low-dimensional"){
+        k = 1;
+    }
+    else{
+        input>>k;
     }
 
-    auto end = chrono::high_resolution_clock::now();
-	auto Elapsed = chrono::duration_cast<chrono::milliseconds>(end - start);
-    output<<"Running time(ms): "<<Elapsed.count() << endl;
+    int count=1;
+
+    // Knapsack new solver;
+
+    while(k--){
+
+        auto start = chrono::high_resolution_clock::now();
+        output<<type<<","<<instance_name<<",Problem "<<count<<",";
+
+        // Choose the solver depend on problem type
+        Knapsack solver;
+        
+        if (type == "multi"){
+            MultiKnapsack solver;
+        }
+        if (type == "multi-demand"){
+            MultidemandKnapsack solver;
+        }
+        
+        // Read and solve the problem
+        solver.read(input);
+        solver.solve(thread);
+        solver.out(output);
+        count++;
+
+        auto end = chrono::high_resolution_clock::now();
+        auto Elapsed = chrono::duration_cast<chrono::milliseconds>(end - start);
+        output<<Elapsed.count() << endl;
+    }
+
+    
     
 }

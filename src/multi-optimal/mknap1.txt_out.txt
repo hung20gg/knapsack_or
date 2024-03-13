@@ -1,7 +1,0 @@
-Passed 	3800/3800
-Passed 	8706.1/8706.1
-Passed 	4015/4015
-Passed 	6120/6120
-Passed 	12400/12400
-Passed 	10618/10618
-Running time(ms): 932
