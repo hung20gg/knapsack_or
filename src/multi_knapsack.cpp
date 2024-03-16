@@ -1,5 +1,6 @@
 #include "../header/multi_knapsack.hpp"  
 
+// Custom read function
 
 void MultiKnapsack::read(std::ifstream &input){
 
@@ -33,6 +34,8 @@ void MultiKnapsack::read(std::ifstream &input){
         input>>MW[i];
     }
 }
+
+// Solve the problem
 
 void MultiKnapsack::solve(int thread){
 
@@ -71,6 +74,8 @@ void MultiKnapsack::solve(int thread){
    for (int i=0;i<item;i++){
         Solution[i] = cplex.getValue(X[i]);
     }
+
+    // Output the result
 
     env.out() << "Solution status = " << cplex.getStatus() << std::endl;
     env.out() << "Solution value  = " << cplex.getObjValue() << std::endl;

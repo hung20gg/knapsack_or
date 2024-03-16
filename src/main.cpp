@@ -41,36 +41,37 @@
 
 #define long long ll;
 
-using namespace std;
 
 
 int main(int argc, char* argv[]){
 
-    string instance_folder = "/home/quanghung20gg/Documents/orlab/tanthu/instances/";
-    string instance_name = "";
-    string type = "";
+    std::string instance_folder = "/home/quanghung20gg/Documents/orlab/tanthu/instances/";
+    std::string instance_name = "";
+    std::string type = "";
     int thread = 1;
+
+    // Get the input from command line
 
     while (--argc){
             argv++;
-            string s(argv[0]);
+            std::string s(argv[0]);
             if (s == "-n"){
-                instance_name = string(argv[1]);
+                instance_name = std::string(argv[1]);
             }
             if (s == "-t"){
-                type = string(argv[1]);
+                type = std::string(argv[1]);
             }
             if (s == "-c"){
-                thread = stoi(argv[1]);
+                thread = std::stoi(argv[1]);
             }
     }
 
-    string dir = instance_folder + type + "/" + instance_name;
-    string dirout = instance_folder + type + "-optimal/" + instance_name;
+    std::string dir = instance_folder + type + "/" + instance_name;
+    std::string dirout = instance_folder + type + "-optimal/" + instance_name;
 
     // Open file
-    ifstream input(dir);
-    ofstream output(dirout+"_out.txt");
+    std::ifstream input(dir);
+    std::ofstream output(dirout+"_out.txt");
 
     int k;
     if (type == "low-dimensional"){
@@ -86,13 +87,15 @@ int main(int argc, char* argv[]){
 
     while(k--){
 
-        auto start = chrono::high_resolution_clock::now();
+        auto start = std::chrono::high_resolution_clock::now();
         output<<type<<","<<instance_name<<",Problem "<<count<<",";
 
         // Choose the solver depend on problem type
-        // MultiKnapsack solver;
+
         
         if (type == "multi"){
+
+            // MultiKnapsack solver;
 
             MultiKnapsack solver;
             solver.read(input);
@@ -102,13 +105,20 @@ int main(int argc, char* argv[]){
         }
         if (type == "multi-demand"){
 
+            // MultidemandKnapsack solver;
+
             MultidemandKnapsack solver;
             solver.read(input);
             solver.solve(thread);
             solver.out(output);
             count++;
+            if (count==6){
+                break;
+            }
         }
         if (type == "low-dimensional"){
+
+            // BasicKnapsack solver;
 
             BasicKnapsack solver;
             solver.read(input);
@@ -117,14 +127,20 @@ int main(int argc, char* argv[]){
             count++;
         }
         
-        // Read and solve the problem
-        
+        // Measure the time
 
-        auto end = chrono::high_resolution_clock::now();
-        auto Elapsed = chrono::duration_cast<chrono::milliseconds>(end - start);
-        output<<Elapsed.count() << endl;
+        auto end = std::chrono::high_resolution_clock::now();
+        auto Elapsed = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+        if (type =="multi-demand"){
+            output<<Elapsed.count()/std::max(5,k) << std::endl;
+        }
+        else{
+            output<<Elapsed.count() << std::endl;
+        }
+        
     }
 
-    
-    
+    input.close();
+    output.close();
+
 }

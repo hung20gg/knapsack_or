@@ -52,7 +52,11 @@ void MultidemandKnapsack::read(std::ifstream &input){
         }}
 }
 
+
+
 void MultidemandKnapsack::solve(int thread){
+    double result = 0;
+
     for (int t=0; t<6; t++){
        
         int q = 1;
@@ -63,10 +67,7 @@ void MultidemandKnapsack::solve(int thread){
         if (t%3 == 0){
             int q = mw;
         }
-        std::cout<<"Loi an cac a dit me"<<std::endl;
-        std::cout<<q<<std::endl;
-    
-
+     
         IloEnv env;
         IloModel Model(env);
 
@@ -102,22 +103,24 @@ void MultidemandKnapsack::solve(int thread){
         
         // Set the parameters
         cplex.setParam(IloCplex::Param::Threads, thread);
-        cplex.setParam(IloCplex::Param::TimeLimit, 300);
+        cplex.setParam(IloCplex::Param::TimeLimit, 120);
 
         cplex.solve();
 
-        for (int i=0;i<item;i++){
-            Solution[i] = cplex.getValue(X[i]);
-        }
+        // for (int i=0;i<item;i++){
+        //     Solution[i] = cplex.getValue(X[i]);
+        // }
             
         env.out() << "Solution status = " << cplex.getStatus() << std::endl;
         env.out() << "Solution value  = " << cplex.getObjValue() << std::endl;
         
-        get_ans(cplex.getObjValue());
+        
         status = cplex.getStatus();
-
+        result += cplex.getObjValue();
         env.end();
     }
+
+    get_ans(result/6);
 }
 
 
