@@ -11,8 +11,8 @@ class Knapsack {
         // virtual void solve() const=0;
         // void output(ofstream &output);
         
-        void read(std::ifstream &input);
-        void solve(int thread);
+        // void read(std::ifstream &input);
+        // void solve(int thread);
 
         void out(std::ofstream &output);
         void get_ans(double re);

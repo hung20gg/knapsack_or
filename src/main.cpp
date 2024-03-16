@@ -33,7 +33,7 @@
 #include<bits/stdc++.h>
 #include<ilcplex/ilocplex.h>
 
-#include "../header/knapsack.hpp"
+#include "../header/basic_knapsack.hpp"
 #include "../header/multi_knapsack.hpp"
 #include "../header/multidemand_knapsack.hpp"
 
@@ -90,20 +90,35 @@ int main(int argc, char* argv[]){
         output<<type<<","<<instance_name<<",Problem "<<count<<",";
 
         // Choose the solver depend on problem type
-        Knapsack solver;
+        // MultiKnapsack solver;
         
         if (type == "multi"){
+
             MultiKnapsack solver;
+            solver.read(input);
+            solver.solve(thread);
+            solver.out(output);
+            count++;
         }
         if (type == "multi-demand"){
+
             MultidemandKnapsack solver;
+            solver.read(input);
+            solver.solve(thread);
+            solver.out(output);
+            count++;
+        }
+        if (type == "low-dimensional"){
+
+            BasicKnapsack solver;
+            solver.read(input);
+            solver.solve(thread);
+            solver.out(output);
+            count++;
         }
         
         // Read and solve the problem
-        solver.read(input);
-        solver.solve(thread);
-        solver.out(output);
-        count++;
+        
 
         auto end = chrono::high_resolution_clock::now();
         auto Elapsed = chrono::duration_cast<chrono::milliseconds>(end - start);

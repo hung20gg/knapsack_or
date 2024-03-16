@@ -63,6 +63,8 @@ void MultidemandKnapsack::solve(int thread){
         if (t%3 == 0){
             int q = mw;
         }
+        std::cout<<"Loi an cac a dit me"<<std::endl;
+        std::cout<<q<<std::endl;
     
 
         IloEnv env;

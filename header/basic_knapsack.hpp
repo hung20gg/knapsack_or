@@ -6,17 +6,17 @@
 
 #include "knapsack.hpp"
 
-class MultiKnapsack: public Knapsack
+class BasicKnapsack: public Knapsack
 {
     private:
 
-        std::vector<std::vector<double>>W;
-        std::vector<double>MW;
+        
         double target;
 
     public:
-        MultiKnapsack() : Knapsack() {};
+        BasicKnapsack() : Knapsack() {};
         void read(std::ifstream &input) ;
         void solve(int thread) ;
+
 
 };

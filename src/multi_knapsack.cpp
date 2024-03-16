@@ -74,7 +74,7 @@ void MultiKnapsack::solve(int thread){
 
     env.out() << "Solution status = " << cplex.getStatus() << std::endl;
     env.out() << "Solution value  = " << cplex.getObjValue() << std::endl;
-    
+    std::cout<<"Solved by Multi Knapsack"<<std::endl;
     get_ans(cplex.getObjValue());
     status = cplex.getStatus();
 
