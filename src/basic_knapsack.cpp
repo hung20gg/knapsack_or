@@ -6,16 +6,6 @@
 
 #include "../header/basic_knapsack.hpp"
 
-// void BasicKnapsack::out(std::ofstream &output){
-
-//         output<<ans<<",";
-//     };
-
-// void BasicKnapsack::get_ans(double re){
-//         std::cout<<"is dead here"<<std::endl;
-//         ans = re;
-//     };
-
 void BasicKnapsack::read(std::ifstream &input) {
     input>>item>>mw;
     std::cout<<item<<" "<<mw<<std::endl;

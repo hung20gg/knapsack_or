@@ -39,13 +39,13 @@
 
 #include<chrono>
 
-#define long long ll;
+#define ll long long;
 
 
 
 int main(int argc, char* argv[]){
 
-    std::string instance_folder = "/home/quanghung20gg/Documents/orlab/tanthu/instances/";
+    std::string instance_folder = "/home/quanghung20gg/Documents/hung20gg/tanthu/instances/";
     std::string instance_name = "";
     std::string type = "";
     int thread = 1;
@@ -84,7 +84,7 @@ int main(int argc, char* argv[]){
     int count=1;
 
     // Knapsack new solver;
-
+    std::cout<<type<<std::endl;
     while(k--){
 
         auto start = std::chrono::high_resolution_clock::now();
@@ -112,9 +112,7 @@ int main(int argc, char* argv[]){
             solver.solve(thread);
             solver.out(output);
             count++;
-            if (count==6){
-                break;
-            }
+            
         }
         if (type == "low-dimensional"){
 
@@ -133,6 +131,9 @@ int main(int argc, char* argv[]){
         auto Elapsed = std::chrono::duration_cast<std::chrono::seconds>(end - start);
         if (type =="multi-demand"){
             output<<Elapsed.count()/std::max(5,k) << std::endl;
+            if (count==6){
+                break;
+            }
         }
         else{
             output<<Elapsed.count() << std::endl;

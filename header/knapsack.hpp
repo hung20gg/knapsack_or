@@ -30,5 +30,4 @@ class Knapsack {
         std::string status;
 
     
-    
 };

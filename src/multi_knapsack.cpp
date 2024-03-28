@@ -67,7 +67,7 @@ void MultiKnapsack::solve(int thread){
 
     // Set the parameters
     cplex.setParam(IloCplex::Param::Threads, thread);
-    cplex.setParam(IloCplex::Param::TimeLimit, 300);
+    cplex.setParam(IloCplex::Param::TimeLimit, 240);
 
     cplex.solve();
 
